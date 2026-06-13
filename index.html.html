@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Cinematográfica - Grupo 4 🎬</title>
+    <style>
+        /* 🌌 FONDO CINEMATOGRÁFICO (ESPACIAL/ESTRELLAS) */
+        body {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* Efecto de partículas/estrellas de fondo */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            animation: spaceScroll 150s linear infinite;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        @keyframes spaceScroll {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-50%, -50%); }
+        }
+
+        /* 🎬 CONTENEDOR DE LA PANTALLA DE CINE */
+        .movie-theater {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            perspective: 1000px;
+        }
+
+        /* 🔄 ZONA DINÁMICA DE TEXTO */
+        .scene-text {
+            position: absolute;
+            opacity: 0;
+            filter: blur(20px);
+            transform: scale(0.7) translateZ(-100px);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                        filter 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                        transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: center;
+            width: 90%;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Estado Activo */
+        .scene-text.active {
+            opacity: 1;
+            filter: blur(0px);
+            transform: scale(1) translateZ(0px);
+            visibility: visible;
+        }
+
+        /* Estado Saliente (Efecto cine hacia adelante) */
+        .scene-text.exit {
+            opacity: 0;
+            filter: blur(15px);
+            transform: scale(1.4) translateZ(200px);
+        }
+
+        /* ESTILOS DE LOS TEXTOS SEGÚN LA ESCENA */
+        .studio-intro {
+            font-size: 24px;
+            letter-spacing: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+
+        .movie-title {
+            font-size: 64px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(to right, #ffe600, #ff8800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 30px rgba(255, 136, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        .narration {
+            font-size: 36px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .highlight-gold {
+            color: #f59e0b;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .highlight-blue {
+            color: #38bdf8;
+            font-family: monospace;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .perfect-score {
+            font-size: 80px;
+            font-weight: 900;
+            color: #4ade80;
+            animation: pulseGlow 2s infinite alternate;
+            display: block;
+            margin-top: 20px;
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 20px rgba(74, 222, 128, 0.4); transform: scale(1); }
+            100% { text-shadow: 0 0 40px rgba(74, 222, 128, 0.8); transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="movie-theater">
+    <div class="scene-text studio-intro active">Una producción de los estudiantes del</div>
+
+    <div class="scene-text movie-title">GRUPO 4</div>
+
+    <div class="scene-text narration">Quienes hoy se unen para rendir un homenaje especial...</div>
+
+    <div class="scene-text narration">A dos mentes brillantes que desafiaron el examen definitivo.</div>
+
+    <div class="scene-text narration">
+        Agradecimiento eterno a:<br>
+        <span class="highlight-gold" style="font-size: 50px;">Yasuri</span><br>
+        <span style="font-size: 24px; color: #94a3b8;">&</span><br>
+        <span class="highlight-gold" style="font-size: 50px;">Feyerlis Escobar</span>
+    </div>
+
+    <div class="scene-text narration">
+        Por demostrar un dominio absoluto sobre las leyes del <br>
+        <span class="highlight-blue">There is</span> & <span class="highlight-blue">There are</span>
+    </div>
+
+    <div class="scene-text narration">
+        Alcanzando la gloria máxima con una
+        <span class="perfect-score">¡NOTA PERFECTA!</span>
+    </div>
+
+    <div class="scene-text studio-intro" style="color: #4ade80;">¡Felicidades! 👑🎬</div>
+</div>
+
+<script>
+    const scenes = document.querySelectorAll(".scene-text");
+    let currentSceneIndex = 0;
+
+    function nextScene() {
+        // 1. Agrega efecto de salida a la escena actual
+        scenes[currentSceneIndex].classList.add("exit");
+        scenes[currentSceneIndex].classList.remove("active");
+
+        // 2. Avanza el índice
+        currentSceneIndex = (currentSceneIndex + 1) % scenes.length;
+
+        // Reinicio del bucle
+        if (currentSceneIndex === 0) {
+            scenes.forEach(scene => scene.classList.remove("exit"));
+        }
+
+        // 3. Activa la siguiente escena
+        scenes[currentSceneIndex].classList.add("active");
+
+        // 4. Control del tiempo por escena
+        let duration = 2500; 
+        
+        if (scenes[currentSceneIndex].classList.contains("movie-title")) {
+            duration = 3000; 
+        } else if (currentSceneIndex === 4 || currentSceneIndex === 6) {
+            duration = 4000; 
+        }
+
+        setTimeout(nextScene, duration);
+    }
+
+    setTimeout(nextScene, 2500);
+</script>
+
+</body>
+</html>
